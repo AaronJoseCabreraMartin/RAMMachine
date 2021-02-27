@@ -40,4 +40,5 @@ class program{
         bool isAnIndirectInstruction(const myString&)const;
         bool correctArgument(const instruction&)const;
 
+        void clear(void);
 };

@@ -1,8 +1,12 @@
 #include "../include/RAMMachine.hpp"
 
 int main(){
-    RAMMachine myRAMMachine("input.txt","output.txt","ejemplosRAM/test4.ram",true);
-    myRAMMachine.showState();
+
+    std::cout << "test7.ram" << std::endl;
+    RAMMachine myRAMMachine7("input.txt","output.txt","ejemplosRAM/test7.ram",true);
+    myRAMMachine7.showState();
+    std::cout << std::endl << std::endl;
+
 
     return 0;
 }

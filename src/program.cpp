@@ -12,27 +12,26 @@ program::program(const std::string& ficheroPrograma){
             file.get(caracter);
             if (caracter != '\n') {
                 if (line.size() == 0 && caracter != '\t' && caracter != ' ' 
-                        && caracter != '	' && caracter != '\n') {
+                        && caracter != '	' && caracter != '\n' 
+                        && (int)caracter != 13 ) {
                     line.push_back(caracter);
-                }else if (line.size() != 0 && caracter != '\n') {
+                }else if (line.size() != 0 && caracter != '\n' && 
+                            (int)caracter != 13) {
                     if (caracter == '\t' || caracter == '	'){
                         caracter = ' ';
                     }
                     line.push_back(caracter);
                 }
             }else{
-                std::cout << line << std::endl;
+                
                 myString fixedLine = deleteComments(line);
-                std::cout << fixedLine.string() << " Size:" << fixedLine.size() << std::endl;
-
                 if (fixedLine.size() > 1 && checkLineSyntax(fixedLine)) {
                     program_.push_back(instruction(fixedLine));
                 }else if (fixedLine.size() > 1) {
-                    std::cout << program_.size()+1 << std::endl;
-                    std::cerr << "Fallo sintactico en: " << fixedLine.string() << std::endl;
-                    std::cerr << "Linea: " << program_.size()+1 << std::endl;
+                    std::cerr << "Fallo sintactico en: \"" << fixedLine.string() << "\""<< std::endl;
                     correct = false;
                     line.clear();
+                    clear();
                     break;
                 }
                 line.clear();
@@ -40,12 +39,13 @@ program::program(const std::string& ficheroPrograma){
         }
         
         if (line.size() != 0) {
+            
             myString fixedLine = deleteComments(line);
             if (fixedLine.size() != 0 && checkLineSyntax(fixedLine)) {
                 instruction instruccion(fixedLine);
                 program_.push_back(instruccion);
             }else if (fixedLine.size() != 0) {
-                std::cerr << "Fallo sintactico en \"" << fixedLine.string() << "\" linea: " << program_.size()+1 << std::endl;
+                std::cerr << "Fallo sintactico en \"" << fixedLine.string() << "\"" << std::endl;
                 correct = false;
             }
         }
@@ -89,14 +89,18 @@ void program::showProgram(void)const{
 }
 
 bool program::checkLineSyntax(const myString& line)const{
-    instruction instructionargumentToCheck(line);
+    
+    instruction instructionArgumentToCheck(line);
+    
     //comprobamos si tiene operando y si es una de las instrucciones
-    if (instructionargumentToCheck.hasOperand() && isAnInstruction(instructionargumentToCheck.getInstruction())) {
+    if (isAnInstruction(instructionArgumentToCheck.getInstruction()) && 
+        instructionArgumentToCheck.hasOperand()) {
         //comprobamos que el operando sea sintacticamente correcto
-        return correctArgument(instructionargumentToCheck);
-    }else if (!instructionargumentToCheck.hasOperand()) {
+        return correctArgument(instructionArgumentToCheck);
+    }else if (isAnInstruction(instructionArgumentToCheck.getInstruction()) && 
+                !instructionArgumentToCheck.hasOperand()) {
         //si no tiene operando, DEBE ser HALT
-        return instructionargumentToCheck.getInstruction() == allowedInstructions_[11];
+        return instructionArgumentToCheck.getInstruction() == allowedInstructions_[11];
     }
 
     return false;
@@ -141,9 +145,10 @@ myString program::deleteComments(const myString& line)const{
 void program::buildInstructions(void){
     allowedInstructions_ = {
                 myString("LOAD"), myString("STORE"), myString("ADD"), 
-                myString("SUB"), myString("MULT"), myString("DIV"), 
+                myString("SUB"), myString("MUL"), myString("DIV"), 
                 myString("READ"), myString("WRITE"), myString("JUMP"), 
-                myString("JGTZ"), myString("JZERO"), myString("HALT")
+                myString("JGTZ"), myString("JZERO"), myString("HALT"),
+                myString("MULT") // en algunos ficheros se usa mult
                 };
 
     jumpInstructions_ = {
@@ -184,6 +189,7 @@ bool program::correctArgument(const instruction& sentenceToCheck)const{
         //si hubiera algo que en una etiqueta no deberia aparecer
     }else if (isAnIndirectInstruction(sentenceToCheck.getInstruction())
                 && argumentToCheck[0] == '*'  ) {
+        
         //*numero ni el registro ni lo que contiene el registro puede ser negativo
         for (size_t i = 1; i < argumentToCheck.size(); i++) {
             //si no es un numero, mal
@@ -201,6 +207,7 @@ bool program::correctArgument(const instruction& sentenceToCheck)const{
 
         //=numero (literales) pueden ser negativos
         if (argumentToCheck[0] == '=') {
+            
             // seria ADD = 
             // (no se permite se necesita un numero)
             if (argumentToCheck.size() == 1) {
@@ -216,7 +223,6 @@ bool program::correctArgument(const instruction& sentenceToCheck)const{
             }
         //numeros (registros) NO PUEDEN SER NEGATIVOS
         }else{
-                std::cout << argumentToCheck << " " << argumentToCheck.size() << std::endl;
             for (size_t i = 0; i < argumentToCheck.size(); i++) {
                 //si no es un numero, mal
                 if ( !((int) argumentToCheck[i] > 47 && (int) argumentToCheck[i] < 58) ){
@@ -277,4 +283,10 @@ bool program::isAnIndirectInstruction(const myString& instruction)const{
         }
     }
     return false;
+}
+
+
+void program::clear(void){
+    taggedLines_.clear();
+    program_.clear();
 }
