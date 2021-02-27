@@ -21,6 +21,8 @@ class myString{
 
         inline operator std::string() const{return string_;}
 
+        inline void clear(void){string_.clear();}
+
         //myString cut(const unsigned& inicio, const unsigned& fin = 0)const;
         //bool contains(const myString&)const;
 };

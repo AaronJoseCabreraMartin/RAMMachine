@@ -6,7 +6,7 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
     debug_ = modo;//true debug false normal
     programCounter_ = 0;
     acumulador_ = 0;
-    state_ = true;
+    state_ = false;
     std::vector<int> entradaLeida;
     std::fstream file(entrada);
     if (file.is_open()) {

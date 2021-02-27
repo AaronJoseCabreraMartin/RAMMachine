@@ -26,4 +26,5 @@ class instruction{
         inline bool hasOperand(void)const{return hasOperand_;}
         
         void show(void)const;
+        void clear(void);
 };

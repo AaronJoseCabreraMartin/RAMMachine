@@ -1,6 +1,7 @@
 #include "../include/instruction.hpp"
 
 instruction::instruction(const myString& instruccion){
+    clear();
     std::string tag;
     std::string instructionAndOperand;
     hasTag_ = false;
@@ -79,4 +80,12 @@ void instruction::show(void)const{
     }
 
     std::cout << std::endl;
+}
+
+void instruction::clear(void){
+    instruction_.clear();
+    hasTag_ = false;
+    tag_.clear();
+    hasOperand_ = false;
+    operand_.clear();
 }

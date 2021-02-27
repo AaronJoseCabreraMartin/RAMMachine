@@ -1,0 +1,25 @@
+            READ 1
+            LOAD 1
+            JGTZ if
+            JUMP else
+
+if:         LOAD =1
+            STORE 2
+
+while:      LOAD 1
+            SUB =1
+            JZERO endwhile
+            LOAD 2
+            MULT 2
+            STORE 2
+            LOAD 1
+            DIV =2
+            STORE 1
+            JUMP while
+
+endwhile:   WRITE 2
+            JUMP fin
+
+else:       WRITE =0
+
+fin:        HALT

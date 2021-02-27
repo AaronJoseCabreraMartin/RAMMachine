@@ -8,8 +8,7 @@ program::program(const std::string& ficheroPrograma){
         bool correct = true;
         std::string line;
         char caracter;
-        while( !file.eof() ) {
-            file.get(caracter);
+        while( !file.eof() && file.get(caracter) ) {
             if (caracter != '\n') {
                 if (line.size() == 0 && caracter != '\t' && caracter != ' ' 
                         && caracter != '	' && caracter != '\n' 
@@ -39,14 +38,14 @@ program::program(const std::string& ficheroPrograma){
         }
         
         if (line.size() != 0) {
-            
             myString fixedLine = deleteComments(line);
-            if (fixedLine.size() != 0 && checkLineSyntax(fixedLine)) {
-                instruction instruccion(fixedLine);
-                program_.push_back(instruccion);
-            }else if (fixedLine.size() != 0) {
-                std::cerr << "Fallo sintactico en \"" << fixedLine.string() << "\"" << std::endl;
+            if (fixedLine.size() > 1 && checkLineSyntax(fixedLine)) {
+                program_.push_back(instruction(fixedLine));
+            }else if (fixedLine.size() > 1) {
+                std::cerr << "Fallo sintactico en: \"" << fixedLine.string() << "\""<< std::endl;
                 correct = false;
+                line.clear();
+                clear();
             }
         }
 
@@ -91,10 +90,10 @@ void program::showProgram(void)const{
 bool program::checkLineSyntax(const myString& line)const{
     
     instruction instructionArgumentToCheck(line);
-    
+
     //comprobamos si tiene operando y si es una de las instrucciones
     if (isAnInstruction(instructionArgumentToCheck.getInstruction()) && 
-        instructionArgumentToCheck.hasOperand()) {
+        instructionArgumentToCheck.hasOperand() ) {
         //comprobamos que el operando sea sintacticamente correcto
         return correctArgument(instructionArgumentToCheck);
     }else if (isAnInstruction(instructionArgumentToCheck.getInstruction()) && 
