@@ -23,6 +23,7 @@ public:
     inline void setvalue(const T& value){value_=value;}
 
     inline T value(void)const{return value_;}
+    inline T& value(void){return value_;}
     inline nodo<T>* next(void)const{return next_;}
     inline nodo<T>* prev(void)const{return prev_;}
 

@@ -21,6 +21,7 @@ public:
   lista(const lista<T>& lista);
   ~lista(void){destroy();}
 
+  T& operator[](int i);
   T operator[](int i)const;
   lista<T>& operator=(const lista<T> lista);
   bool operator==(const lista<T> lista)const;

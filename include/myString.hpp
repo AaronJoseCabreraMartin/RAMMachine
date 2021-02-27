@@ -17,6 +17,10 @@ class myString{
 
         void set(const std::string&);
 
+        myString capitalize(void)const;
+
+        inline operator std::string() const{return string_;}
+
         //myString cut(const unsigned& inicio, const unsigned& fin = 0)const;
         //bool contains(const myString&)const;
 };

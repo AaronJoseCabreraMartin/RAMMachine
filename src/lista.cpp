@@ -28,6 +28,16 @@ T lista<T>::operator[](int i)const{
 }
 
 template<class T>
+T& lista<T>::operator[](int i){
+  assert( (i >= 0) && ( i < size_ ) );
+  nodo<T>* nodo_aux = head_;
+  for (size_t j = 0; j < i; j++){
+      nodo_aux = nodo_aux->next();
+  }
+  return nodo_aux->value();
+}
+
+template<class T>
 lista<T>& lista<T>::operator=(const lista<T> lista){
     if (!empty()){
         clear();

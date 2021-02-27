@@ -2,7 +2,7 @@
 
 instruction::instruction(const myString& instruccion){
     std::string tag;
-    std::string realinstruction;
+    std::string instructionAndOperand;
     hasTag_ = false;
     for (size_t i = 0; i < instruccion.size(); i++){
         if (instruccion[i] == ':') {
@@ -20,7 +20,7 @@ instruction::instruction(const myString& instruccion){
     for (size_t i = 0; i < instruccion.size(); i++) {
         if (tagPassed) {
             //si ya pasamos la tag lo que queda es instruccion
-            realinstruction.push_back(instruccion[i]);
+            instructionAndOperand.push_back(instruccion[i]);
         }else{
             //sino, almacenamos los caracteres como tag
             if (instruccion[i]==':') {
@@ -30,27 +30,53 @@ instruction::instruction(const myString& instruccion){
             }
         }  
     }
-    std::string noSpaceInstruction;
+    std::string clearedInstruction;
     bool foundCharacter = false;
-    for (int i = 0; i < realinstruction.size(); i++){
-        //es un numero o es una letra mayuscula/minuscula
-        if ( ( (int) realinstruction[i] > 47 && (int) realinstruction[i] < 58 ) ||
-            ( (int) realinstruction[i] > 64 && (int) realinstruction[i] < 91 ) || 
-            ( (int) realinstruction[i] > 96 && (int) realinstruction[i] < 123 ) ) {
-            noSpaceInstruction.push_back(realinstruction[i]);
+    for (int i = 0; i < instructionAndOperand.size(); i++){
+        //el primer caracter es una letra mayuscula/minuscula
+        if ( ( (int) instructionAndOperand[i] > 64 && (int) instructionAndOperand[i] < 91 ) || 
+            ( (int) instructionAndOperand[i] > 96 && (int) instructionAndOperand[i] < 123 ) ) {
+            clearedInstruction.push_back(instructionAndOperand[i]);
             foundCharacter=true;
         }else if(foundCharacter){
             //sino es un numero ni una letra le hago push si ya habia encontrado un caracter
-            noSpaceInstruction.push_back(realinstruction[i]);
+            clearedInstruction.push_back(instructionAndOperand[i]);
         }
     }
-    instruction_.set(noSpaceInstruction);
+    bool foundSeparator = false;
+    std::string operando, onlyIntruction;
+    for (size_t i = 0; i < clearedInstruction.size(); i++) {
+        if (foundSeparator && clearedInstruction[i] != ' ' &&
+                    clearedInstruction[i] != '\t' && 
+                    clearedInstruction[i] != '	') {
+            operando.push_back(clearedInstruction[i]);
+        }else{
+            //los operandos siempre vienen separados por un espacio
+            if (clearedInstruction[i] == ' ') {
+                foundSeparator = true;
+            }else{
+                onlyIntruction.push_back(clearedInstruction[i]);
+            }
+        }
+    }
+
+    // si se encontro operando, el tamaño no sera 0
+    hasOperand_ = operando.size() != 0;
+
     tag_.set(tag);
+    instruction_.set(myString(onlyIntruction).capitalize().string());
+    operand_.set(operando);
 }
 
 void instruction::show(void)const{
     if (hasTag_) {
-        std::cout << tag_.string() << ": "<< std::endl;
+        std::cout << tag_.string() << ": ";
     }
-    std::cout << instruction_.string() << std::endl;
+    std::cout << instruction_.string();
+
+    if (hasOperand_) {
+        std::cout << " " << operand_.string();
+    }
+
+    std::cout << std::endl;
 }

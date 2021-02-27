@@ -19,6 +19,19 @@ void myString::set(const std::string& nuevoString){
     }
 }
 
+myString myString::capitalize(void)const{
+    std::string capitalized;
+    for (size_t i = 0; i < string_.size(); i++) {
+        //si es una letra minuscula
+        if ( (int) string_[i] > 96 && (int) string_[i] < 123 ) {
+            capitalized.push_back((char)( ( (int) string_[i] ) - 32 ));
+        }else{
+            capitalized.push_back(string_[i]);
+        }
+    }
+    return myString(capitalized);
+}
+
 /*myString myString::cut(const unsigned& inicio, const unsigned& fin)const{
     std::string subString;
     if (inicio>fin) {

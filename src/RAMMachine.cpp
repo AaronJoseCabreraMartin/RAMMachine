@@ -26,6 +26,7 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
         }
         file.close();
         cintaEntrada_.setCinta(entradaLeida);
+        registros_.set({0,0,0,0,0});
     }else{
         std::cerr << "Error, fichero " << entrada << " no se ha podido leer" << std::endl;
     }
@@ -33,17 +34,19 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
 
 
 void RAMMachine::showState(void)const{
-    std::cout << "Estado actual: " << (state_ ? "Running" : "HALT") << std::endl;
+    std::cout << "Estado actual: " << (state_ ? "Activo" : "HALT") << std::endl;
     std::cout << "Modo Debug: " << (debug_ ? "Activado" : "Desactivado") << std::endl;
     std::cout << "Cinta Entrada: ";
     cintaEntrada_.show();
     std::cout << std::endl << "Cinta Salida: ";
     cintaSalida_.show();
     std::cout << std::endl;
-    std::cout << "Program Counter: " << programCounter_ << std::endl;
     std::cout << "Estado actual de los registros:" << std::endl;
     for (size_t i = 0; i < registros_.size(); i++) {
         std::cout << " R[" << i << "] = " << registros_[i] << std::endl;
     }
     std::cout << "Acumulador: " << acumulador_ << std::endl;
+    std::cout << "Contador de Programa: " << programCounter_ << std::endl;
+    std::cout << "Programa Cargado: " << std::endl;
+    programa_.showProgram();
 }
