@@ -108,3 +108,9 @@ Ejemplo: STORE *2 se miraría el contenido del registro 2, pero, supongamos que 
 Este modo se activa colocando un símbolo "=" delante de un número. El número detrás del = se tratará como un literal, por lo tanto puede ser negativo. La interpretación de este modo es la siquiente: por ejemplo con ADD =1, sería; acumulador = acumulador + 1.
 
 Las instrucciones STORE y READ no permiten direccionamiento inmediato por el propio significado de las instrucciones.
+
+
+
+### Link del repositorio
+
+[https://github.com/AaronJoseCabreraMartin/RAMMachine](https://github.com/AaronJoseCabreraMartin/RAMMachine)
