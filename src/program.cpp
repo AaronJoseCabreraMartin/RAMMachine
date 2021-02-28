@@ -53,14 +53,19 @@ program::program(const std::string& ficheroPrograma){
         if (correct) {
             // 0 correcto
             int errorSemantico = checkSemantic();
+            char error;
             if (errorSemantico == 1) {
                 std::cerr << "Error se salta a una etiqueta no definida" << std::endl;
+                std::cin >> error;
             }else if (errorSemantico == 2) {
                 std::cerr << "Error etiqueta duplicada" << std::endl;
+                std::cin >> error;
             }else if (errorSemantico == 3) {
                 // unico caso DIV =0
                 std::cerr << "Se divide entre 0" << std::endl;
+                std::cin >> error;
             }
+            clear();
         }
         file.close();
     }else{
@@ -121,8 +126,8 @@ int program::checkSemantic(void)const{
             //si es DIV
             //comprobar que no divida entre 0 o entre -0  
         }else if (program_[i].getInstruction() == allowedInstructions_[5] && 
-                    (program_[i].getOperand() == myString("0") || 
-                    program_[i].getOperand() == myString("-0"))) {
+                    (program_[i].getOperand() == myString("=0") || 
+                    program_[i].getOperand() == myString("=-0"))) {
             error = 3;
             break;
         }

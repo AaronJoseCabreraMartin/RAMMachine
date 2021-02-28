@@ -36,17 +36,39 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
 void RAMMachine::showState(void)const{
     std::cout << "Estado actual: " << (state_ ? "Activo" : "HALT") << std::endl;
     std::cout << "Modo Debug: " << (debug_ ? "Activado" : "Desactivado") << std::endl;
-    std::cout << "Cinta Entrada: ";
-    cintaEntrada_.show();
-    std::cout << std::endl << "Cinta Salida: ";
-    cintaSalida_.show();
+    showCintaEntrada();
     std::cout << std::endl;
+    showCintaSalida();
+    std::cout << std::endl;
+    showRegisters();
+    std::cout << "Acumulador: " << acumulador_ << std::endl;
+    std::cout << "Contador de Programa: " << programCounter_ << std::endl;
+    showPrograma();
+}
+
+void RAMMachine::showRegisters(void)const{
     std::cout << "Estado actual de los registros:" << std::endl;
     for (size_t i = 0; i < registros_.size(); i++) {
         std::cout << " R[" << i << "] = " << registros_[i] << std::endl;
     }
-    std::cout << "Acumulador: " << acumulador_ << std::endl;
-    std::cout << "Contador de Programa: " << programCounter_ << std::endl;
+}
+
+void RAMMachine::showCintaEntrada(void)const{
+    std::cout << "Cinta Entrada: ";
+    cintaEntrada_.show();
+}
+
+void RAMMachine::showCintaSalida(void)const{
+    std::cout << "Cinta Salida: ";
+    cintaSalida_.show();
+}
+
+void RAMMachine::execute(void){
+    std::cout << "El estado de la máquina debería dejar de ser HALT" << std::endl;
+    std::cout << "La máquina empezaría a ejecutar las instrucciones" << std::endl;
+}
+
+void RAMMachine::showPrograma(void)const{
     std::cout << "Programa Cargado: " << std::endl;
     programa_.showProgram();
 }
