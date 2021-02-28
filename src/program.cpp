@@ -57,15 +57,17 @@ program::program(const std::string& ficheroPrograma){
             if (errorSemantico == 1) {
                 std::cerr << "Error se salta a una etiqueta no definida" << std::endl;
                 std::cin >> error;
+                clear();
             }else if (errorSemantico == 2) {
                 std::cerr << "Error etiqueta duplicada" << std::endl;
                 std::cin >> error;
+                clear();
             }else if (errorSemantico == 3) {
                 // unico caso DIV =0
-                std::cerr << "Se divide entre 0" << std::endl;
+                std::cerr << "Error, se divide entre 0: DIV =0" << std::endl;
                 std::cin >> error;
+                clear();
             }
-            clear();
         }
         file.close();
     }else{
@@ -139,7 +141,7 @@ int program::checkSemantic(void)const{
 myString program::deleteComments(const myString& line)const{
     std::string noComments;
     unsigned index = 0;
-    while (index < line.size() && line[index] != '#') {
+    while (index < line.size() && line[index] != ';') {
         noComments.push_back(line[index]);
         index++;
     }

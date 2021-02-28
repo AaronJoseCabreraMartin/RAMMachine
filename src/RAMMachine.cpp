@@ -6,6 +6,7 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
     debug_ = modo;//true debug false normal
     programCounter_ = 0;
     acumulador_ = 0;
+    instruccionesEjecutadas_ = 0;
     state_ = false;
     std::vector<int> entradaLeida;
     std::fstream file(entrada);
@@ -51,6 +52,8 @@ void RAMMachine::showRegisters(void)const{
     for (size_t i = 0; i < registros_.size(); i++) {
         std::cout << " R[" << i << "] = " << registros_[i] << std::endl;
     }
+    std::cout << "El número de registros es dinámicamente modificado, es decir";
+    std::cout << ", cuando hace falta uno más, se crea" << std::endl;
 }
 
 void RAMMachine::showCintaEntrada(void)const{

@@ -1,9 +1,9 @@
-# Programa que lee los elementos de la cinta de entrada hasta
-# que encuentra un 0 y va guardando los valores en registros
-# sucesivos comenzando por el registro R3. Luego, multiplica
-# todos esos valores por 3 y los escribe en la cinta de salida
+; Programa que lee los elementos de la cinta de entrada hasta
+; que encuentra un 0 y va guardando los valores en registros
+; sucesivos comenzando por el registro R3. Luego, multiplica
+; todos esos valores por 3 y los escribe en la cinta de salida
 
-# Se usa direccionamiento indirecto mediante el registro R2
+; Se usa direccionamiento indirecto mediante el registro R2
 
 				load =3
 				store 2

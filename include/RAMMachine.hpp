@@ -19,6 +19,7 @@ class RAMMachine{
 
         unsigned programCounter_;
         int acumulador_;
+        unsigned instruccionesEjecutadas_;
 
         bool state_;//HALT or RUNNING
         bool debug_;
@@ -30,6 +31,7 @@ class RAMMachine{
         virtual ~RAMMachine(){}
 
         inline bool state(void)const{return state_;}
+        inline unsigned instruccionesEjecutadas(void)const{return instruccionesEjecutadas_;}
 
         void showState(void)const;//muestra todos los registros,pc etc
         void showRegisters(void)const;
