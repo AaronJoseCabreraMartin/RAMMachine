@@ -56,6 +56,8 @@ public:
   
   nodo<T>* extract(int pos);
   void erase(int pos);
+
+  //T at(int)const;
 private:
   void destroy(void);
 };

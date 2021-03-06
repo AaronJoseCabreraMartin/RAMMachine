@@ -10,6 +10,7 @@
 #include "../include/registros.hpp"
 
 class RAMMachine{
+    //friend class Div;
     private:
         cintaEntrada cintaEntrada_;
         cintaSalida cintaSalida_;
@@ -33,15 +34,21 @@ class RAMMachine{
         inline bool state(void)const{return state_;}
         inline unsigned instruccionesEjecutadas(void)const{return instruccionesEjecutadas_;}
 
-        void showState(void)const;//muestra todos los registros,pc etc
+        void show(void)const;
+        void showState(void)const;
         void showRegisters(void)const;
         void showCintaEntrada(void)const;
         void showCintaSalida(void)const;
         void showPrograma(void)const;
 
         inline void exportToFile(void)const{cintaSalida_.toFile(ficheroSalida_);}
-
+        
+        //ejecuta hasta un halt o un error
         void execute(void);
+        //Para modo paso a paso
+        void executeStepByStep(void);
     private:
         void applyInstrucction(void);
+
+        void setPointers(void);
 };

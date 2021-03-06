@@ -16,6 +16,8 @@ class registros{
         int operator[](const int&)const;
         int& operator[](const int&);
 
+        int at(int);
+
         void show(void)const;
         inline unsigned size(void)const{return registros_.size();} 
 

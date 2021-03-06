@@ -41,7 +41,6 @@ int main(int argc, char *argv[]){
             std::cout << "o: ver cinta salida" << std::endl;
             std::cout << "h: ayuda" << std::endl;
             std::cout << "x: salir" << std::endl;
-            std::cout << "p: ver programa almacenado" << std::endl;
             std::cout << ">" << std::endl;
             std::cin >> opcion;
             //sys = system("clear");
@@ -51,11 +50,14 @@ int main(int argc, char *argv[]){
                     break;
                 case 't':
                     std::cout << "Ejecutaría pero en modo traza" << std::endl;
+                    salir = true;
                     break;
                 case 'e':
                     myRAMMachine.execute();
+                    salir = true;
                     break;
                 case 's':
+                    myRAMMachine.showPrograma();
                     break;
                 case 'i':
                     myRAMMachine.showCintaEntrada();
@@ -68,9 +70,6 @@ int main(int argc, char *argv[]){
                     break;
                 case 'x':
                     salir = true;
-                    break;
-                case 'p':
-                    myRAMMachine.showPrograma();
                     break;
                 default:
                     std::cout << "Opción " << opcion << " no existe" << std::endl;

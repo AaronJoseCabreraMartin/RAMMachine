@@ -5,9 +5,12 @@
 #include "mathInstruction.hpp"
 
 class Div : public mathInstruction{
+    private:
+        bool* state_;
     public:
         Div(const myString& line):mathInstruction(line){}
         virtual ~Div(){}
-        //int apply(void);
-        int apply(void){return 0;}
+        int apply(void);
+        void stablishEstado(bool* pointer){state_ = pointer;}
+        myString name(void)const{return myString("div");}
 };

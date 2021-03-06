@@ -4,7 +4,7 @@
 #include<vector>
 #include<string>
 #include<fstream>
-#include <utility> 
+#include <unordered_map> 
 
 #include "instruction.hpp"
 
@@ -35,9 +35,13 @@ class program{
     private:
         std::vector<myString> allowedInstructions_;
 
-        std::vector<std::pair<myString,unsigned>> taggedLines_;
+        std::unordered_map<std::string,unsigned> taggedLines_;
 
         std::vector<instruction*> program_;
+
+        bool duplicateTags_;
+
+        char comments_;
 
     public:
         program(const std::string&);
@@ -45,11 +49,16 @@ class program{
 
         void showProgram(void)const;
 
+        inline unsigned size(void)const{return program_.size();}
+
+        instruction* operator[](const int& i)const{return program_[i];}
+    
+        std::unordered_map<std::string,unsigned>* getEtiquetas(void);
+
     private:
         bool checkLineSyntax(const myString&)const;
-        int checkSemantic(void)const;
-        bool checkDoubleTags(void)const;
-        bool checkTagDefined(const myString&)const;
+        int checkSemantic(void);
+        bool checkTagDefined(const myString&);
 
         instruction* createInstruction(const myString&)const;
 
@@ -59,12 +68,10 @@ class program{
         void buildInstructions(void);//
         void buildTaggedInstructions(void);//
 
-        bool isAnInstruction(const myString&)const;//
-        //bool isAJumpInstruction(const myString&)const;//
-        //bool isAnIndirectInstruction(const myString&)const;//
         bool correctArgument(const instruction*)const;
 
         std::vector<myString> splitInstructionParts(const myString&)const;
 
         void clear(void);
+
 };

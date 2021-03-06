@@ -11,4 +11,5 @@ class halt : public instruction{
         inline int apply(void){return 0;}
 
         inline bool hasOperand(void)const{return false;}
+        myString name(void)const{return myString("halt");}
 };

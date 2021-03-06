@@ -252,3 +252,13 @@ void lista<T>::destroy(void){
     tail_ = NULL;
     size_ = 0;
 }
+
+/*template<class T>
+T lista<T>::at(int i)const{
+  assert( (i >= 0) && ( i < size_ ) );
+  nodo<T>* nodo_aux = head_;
+  for (size_t j = 0; j < i; j++){
+      nodo_aux = nodo_aux->next();
+  }
+  return nodo_aux->value();
+}*/

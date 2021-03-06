@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<iostream>
+#include<math.h>
 
 class myString{
     private:
@@ -26,4 +27,6 @@ class myString{
 
         myString cut(const unsigned& inicio, const unsigned& fin = 0)const;
         bool contains(const myString&)const;
+
+        int toInt(void)const;
 };

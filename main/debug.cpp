@@ -13,6 +13,7 @@ int main(void) {
     }else{
         std::cout << "no contiene" << std::endl;
     }
-    
+    std::cout << prueba.toInt() << std::endl;
+    std::cout << prueba.cut(1,prueba.size()-1).string() << std::endl;
     return 0;
 }

@@ -10,9 +10,10 @@ int& registros::operator[](const int& index){
     if (index < registros_.size()) {
         return registros_[index];
     }
-    while (index <= registros_.size()) {
+    while (index >= registros_.size()) {
         registros_.insert_tail(0);
     }
+    std::cout << index << " " << registros_.size() << std::endl;
     return registros_[index];
 }
 
@@ -39,4 +40,9 @@ void registros::set(const std::vector<int>& nuevoEstado){
         registros_.insert_tail(nuevoEstado[i]);
     }
 }
+
+int registros::at(int index){
+    return registros_[index];
+}
+
 

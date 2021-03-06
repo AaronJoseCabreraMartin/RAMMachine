@@ -72,3 +72,21 @@ bool myString::contains(const myString& substring)const{
     os << string.string();
     return os;
 }*/
+
+int myString::toInt(void)const{
+    int toReturn = 0;
+    for (int i = string_.size()-1; i >= 0; i--) {
+        //si es algun numero, lo transformo a int teniendo en cuenta su pos 
+        if ((int)string_[i] > 47 && (int)string_[i] < 58) {
+            toReturn += ((int)string_[i] - 48)*pow(10,string_.size()-1-i);
+        //si el primer caracter de la L es un - el num es negativo
+        }else if(string_[i] == '-' && i == 0){
+            toReturn = -toReturn;
+        //sino es un numero o un - a la L, esta mal
+        }else{
+            std::cerr << "No se ha podido convertir " << string_ << " correctamente a int" << std::endl;
+            return 0;
+        }
+    }
+    return toReturn;
+}

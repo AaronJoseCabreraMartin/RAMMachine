@@ -1,7 +1,8 @@
 #include "../include/program.hpp"
 
 program::program(const std::string& ficheroPrograma){
-
+    duplicateTags_ = false;
+    comments_ = ';';
     buildInstructions();
 
     std::fstream file(ficheroPrograma);
@@ -88,33 +89,36 @@ program::~program(){
 
 //la linea no tiene comentarios (falta mayuscula, no puedo por etiqueta) 
 instruction* program::createInstruction(const myString& line)const{
-    if (line.contains(allowedInstructions_[11])) {
+    //comparo con la mayus pero creo con la minus
+    myString capitalizedLine = line.capitalize();
+    if (capitalizedLine.contains(allowedInstructions_[11])) {
         return new halt(line);
-    }else if (line.contains(allowedInstructions_[0])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[0])) {
         return new load(line);
-    }else if (line.contains(allowedInstructions_[1])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[1])) {
         return new store(line);
-    }else if (line.contains(allowedInstructions_[2])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[2])) {
         return new add(line);
-    }else if (line.contains(allowedInstructions_[3])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[3])) {
         return new sub(line);
-    }else if (line.contains(allowedInstructions_[4]) || 
-                line.contains(allowedInstructions_[12])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[4]) || 
+                capitalizedLine.contains(allowedInstructions_[12])) {
         return new mult(line);
-    }else if (line.contains(allowedInstructions_[5])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[5])) {
         return new Div(line);
-    }else if (line.contains(allowedInstructions_[6])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[6])) {
         return new read(line);
-    }else if (line.contains(allowedInstructions_[7])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[7])) {
         return new write(line);
-    }else if (line.contains(allowedInstructions_[8])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[8])) {
         return new jump(line);
-    }else if (line.contains(allowedInstructions_[9])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[9])) {
         return new jgtz(line);
-    }else if (line.contains(allowedInstructions_[10])) {
+    }else if (capitalizedLine.contains(allowedInstructions_[10])) {
         return new jzero(line);
     }
-
+    std::cerr << "Lectura incorrecta de instruciones, instruccion ";
+    std::cerr << line.string() << " sustituida por HALT" << std::endl;
     return new halt(line);
 }
 
@@ -147,7 +151,7 @@ bool program::checkLineSyntax(const myString& line)const{
     // 2 argumento
     if ( instructionsParts[0].size() != 0 ) {
         for (size_t i = 0; i < instructionsParts[0].size(); i++) {
-            if ( instructionsParts[0][i] == '#') {
+            if ( instructionsParts[0][i] == comments_) {
                 return false;
             }
         }
@@ -230,13 +234,13 @@ std::vector<myString> program::splitInstructionParts(const myString& line)const{
 }
 
 
-int program::checkSemantic(void)const{
+int program::checkSemantic(void){
     int error = 0;
     for (size_t i = 0; i < program_.size(); i++) {
         //if (isAJumpInstruction(program_[i].getInstruction())) {
         if (program_[i]->kindOf() == myString("jump")){
             //si hay etiquetas duplicadas
-            if (!checkDoubleTags()){
+            if (duplicateTags_){
                 error = 2;
                 break;
             //o si la etiqueta no existe
@@ -260,7 +264,7 @@ int program::checkSemantic(void)const{
 myString program::deleteComments(const myString& line)const{
     std::string noComments;
     unsigned index = 0;
-    while (index < line.size() && line[index] != ';') {
+    while (index < line.size() && line[index] != comments_) {
         noComments.push_back(line[index]);
         index++;
     }
@@ -275,18 +279,6 @@ void program::buildInstructions(void){
                 myString("JGTZ"), myString("JZERO"), myString("HALT"),
                 myString("MULT") // en algunos ficheros se usa mult
                 };
-}
-
-bool program::isAnInstruction(const myString& instructionToCheck)const{
-    myString instructionToCheckCapitalized(instructionToCheck.capitalize());
-    bool found = false;
-    for (size_t i = 0; i < allowedInstructions_.size(); i++) {
-        if (allowedInstructions_[i] == instructionToCheckCapitalized) {
-            found = true;
-            break;
-        }
-    }
-    return found;
 }
 
 bool program::correctArgument(const instruction* sentenceToCheck)const{
@@ -353,31 +345,25 @@ bool program::correctArgument(const instruction* sentenceToCheck)const{
 
 void program::buildTaggedInstructions(void){
     taggedLines_.clear();
+    int numberOfTags = 0;
     for (size_t i = 0; i < program_.size(); i++) {
         if (program_[i]->hasTag()) {
-            taggedLines_.push_back(std::pair<myString,unsigned>(program_[i]->getTag(),i));
+            //taggedLines_.push_back(std::pair<myString,unsigned>(program_[i]->getTag(),i));
+            taggedLines_[program_[i]->getTag().string()] = i;
+            numberOfTags++;
         }
     }
+    // si el número de tags que hemos introducido no es
+    // el mismo que el numero de tags que tiene el hash
+    // es que hay alguna repetida
+    duplicateTags_ = numberOfTags != taggedLines_.size();
 }
 
-bool program::checkDoubleTags(void)const{
-    for (size_t i = 0; i < taggedLines_.size(); i++) {
-        for (size_t j = 0; j < taggedLines_.size(); j++) {
-            if ( i!=j && taggedLines_[i].first == taggedLines_[j].first ){
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
-bool program::checkTagDefined(const myString& tag)const{
-    for (size_t i = 0; i < taggedLines_.size(); i++) {
-        if (taggedLines_[i].first == tag) {
-            return true;
-        }
-    }
-    return false;
+bool program::checkTagDefined(const myString& tag){
+    std::unordered_map<std::string,unsigned>::iterator got;
+    got = taggedLines_.find (tag.string());
+    //si es el end, es que no estaba
+    return !(got == taggedLines_.end());
 }
 
 void program::clear(void){
@@ -427,4 +413,8 @@ myString program::deleteInnerSpaces(const myString& line)const{
         i++;
     }
     return myString(toReturn);
+}
+
+std::unordered_map<std::string,unsigned>* program::getEtiquetas(void){
+    return &taggedLines_;
 }

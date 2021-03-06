@@ -5,6 +5,7 @@ instruction::instruction(const myString& instruccion){
     std::string tag;
     std::string instructionAndOperand;
     hasTag_ = instruccion.contains(myString(":"));
+    correct_ = true;
     bool tagPassed = !hasTag_;
 
     for (size_t i = 0; i < instruccion.size(); i++) {

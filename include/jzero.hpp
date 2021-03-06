@@ -8,6 +8,6 @@ class jzero : public jumpInstruction{
     public:
         jzero(const myString& line):jumpInstruction(line){}
         virtual ~jzero(){}
-        //int apply(void);
-        int apply(void){return 0;}
+        int apply(void);
+        myString name(void)const{return myString("jzero");}
 };
