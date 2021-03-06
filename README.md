@@ -109,7 +109,9 @@ Este modo se activa colocando un símbolo "=" delante de un número. El número 
 
 Las instrucciones STORE y READ no permiten direccionamiento inmediato por el propio significado de las instrucciones.
 
+### Diseño de clases
 
+![uml](/imgs/uml.png)
 
 ### Link del repositorio
 

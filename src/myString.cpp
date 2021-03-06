@@ -32,13 +32,18 @@ myString myString::capitalize(void)const{
     return myString(capitalized);
 }
 
-/*myString myString::cut(const unsigned& inicio, const unsigned& fin)const{
+myString myString::cut(const unsigned& inicio, const unsigned& fin)const{
     std::string subString;
-    if (inicio>fin) {
-        for (size_t i = inicio; i < string_.size(); i++){
+    if (inicio >= string_.size() || fin >= string_.size() || 
+            inicio < 0 || fin < 0 || (inicio > fin && fin != 0) ) {
+        return subString;
+    }
+    
+    if (inicio > fin && fin == 0) {
+        for (size_t i = 0; i < inicio; i++){
             subString.push_back(string_[i]);
         }
-    }else{
+    }else if (fin >= 0) {
         for (size_t i = inicio; i < fin+1; i++){
             subString.push_back(string_[i]);
         }
@@ -48,15 +53,20 @@ myString myString::capitalize(void)const{
 
 
 bool myString::contains(const myString& substring)const{
+    if (substring.size() > string_.size()) {
+        return false;
+    }
+    
     unsigned i = 0, j = 0;
-    //while (j < substring.size()) {
-    //    i = 0;
-    //    while (i < string_.size()) {
-
-    //    }
-    //}
-    return true;
-}/*
+    while (i < size()) {
+        j = i + substring.size() - 1;
+        if ( cut(i,j) == substring ) {
+            return true;
+        }
+        i++;
+    }
+    return false;
+}
 
 /*std::ostream& operator<<(std::ostream& os, const myString& string){
     os << string.string();

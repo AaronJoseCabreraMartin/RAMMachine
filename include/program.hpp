@@ -8,19 +8,40 @@
 
 #include "instruction.hpp"
 
+#include "halt.hpp"
+
+#include "operandInstruction.hpp"
+
+#include "jumpInstruction.hpp"
+#include "jzero.hpp"
+#include "jump.hpp"
+#include "jgtz.hpp"
+
+#include "mathInstruction.hpp"
+#include "add.hpp"
+#include "sub.hpp"
+#include "mult.hpp"
+#include "div.hpp"
+
+#include "registryInstruction.hpp"
+#include "store.hpp"
+#include "load.hpp"
+
+#include "memoryInstruction.hpp"
+#include "read.hpp"
+#include "write.hpp"
+
 class program{
     private:
         std::vector<myString> allowedInstructions_;
-        std::vector<myString> jumpInstructions_;
-        std::vector<myString> indirectInstructons_;//instrucciones que admiten indireccion
 
         std::vector<std::pair<myString,unsigned>> taggedLines_;
 
-        std::vector<instruction> program_;
+        std::vector<instruction*> program_;
 
     public:
         program(const std::string&);
-        ~program(){}
+        virtual ~program();
 
         void showProgram(void)const;
 
@@ -30,15 +51,20 @@ class program{
         bool checkDoubleTags(void)const;
         bool checkTagDefined(const myString&)const;
 
-        myString deleteComments(const myString&)const;
-        
-        void buildInstructions(void);
-        void buildTaggedInstructions(void);
+        instruction* createInstruction(const myString&)const;
 
-        bool isAnInstruction(const myString&)const;
-        bool isAJumpInstruction(const myString&)const;
-        bool isAnIndirectInstruction(const myString&)const;
-        bool correctArgument(const instruction&)const;
+        myString deleteComments(const myString&)const;
+        myString deleteInnerSpaces(const myString&)const;
+        
+        void buildInstructions(void);//
+        void buildTaggedInstructions(void);//
+
+        bool isAnInstruction(const myString&)const;//
+        //bool isAJumpInstruction(const myString&)const;//
+        //bool isAnIndirectInstruction(const myString&)const;//
+        bool correctArgument(const instruction*)const;
+
+        std::vector<myString> splitInstructionParts(const myString&)const;
 
         void clear(void);
 };

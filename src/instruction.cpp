@@ -4,19 +4,8 @@ instruction::instruction(const myString& instruccion){
     clear();
     std::string tag;
     std::string instructionAndOperand;
-    hasTag_ = false;
-    for (size_t i = 0; i < instruccion.size(); i++){
-        if (instruccion[i] == ':') {
-            hasTag_ = true;
-        }
-    }
-    bool tagPassed;
-    
-    if (hasTag_){
-        tagPassed = false;
-    }else{
-        tagPassed = true;
-    }
+    hasTag_ = instruccion.contains(myString(":"));
+    bool tagPassed = !hasTag_;
 
     for (size_t i = 0; i < instruccion.size(); i++) {
         if (tagPassed) {

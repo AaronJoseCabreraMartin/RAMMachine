@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include<iostream>
 
 class myString{
     private:
@@ -23,6 +24,6 @@ class myString{
 
         inline void clear(void){string_.clear();}
 
-        //myString cut(const unsigned& inicio, const unsigned& fin = 0)const;
-        //bool contains(const myString&)const;
+        myString cut(const unsigned& inicio, const unsigned& fin = 0)const;
+        bool contains(const myString&)const;
 };
