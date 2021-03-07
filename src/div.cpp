@@ -2,12 +2,27 @@
 
 int Div::apply(void){
     int valueOperand;
+    //si es carga inmediata, se coge ese valor directamente
     if ( instruction::operand_.contains(myString("=")) ) {
         valueOperand = instruction::operand_.cut(1,instruction::operand_.size()-1).toInt();
-    //si no es carga directa, se coge el valor desde un registro
-    } else {
+    //si es indirecta debemos devolver el registro en el que hay que mirar
+    }else if(instruction::operand_.contains(myString("*"))) {
+        if (instruction::operand_.cut(1,instruction::operand_.size()-1).toInt() <= 0){
+            std::cerr << "¡Registro inexistente!" << std::endl;
+            instruction::correct_ = false;
+            return 0;
+        }
+        return instruction::operand_.cut(1,instruction::operand_.size()-1).toInt();
+    //hay que coger el valor de un registro
+    }else{
+        if (instruction::operand_.toInt() <= 0) {
+            std::cerr << "¡Registro inexistente!" << std::endl;
+            instruction::correct_ = false;
+            return 0;
+        }
         valueOperand = mathInstruction::registros_->operator[](instruction::operand_.toInt());
     }
+    
     if (valueOperand == 0){
         std::cerr << "¡Error! ¡Division por 0!" << std::endl;
         //*state_ = false;

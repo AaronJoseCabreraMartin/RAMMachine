@@ -21,4 +21,8 @@ class  memoryInstruction : public operandInstruction{
         void stablishRegistros(registros* pointer){ registros_ = pointer; }
         void stablishCintaEntrada(cintaEntrada* pointer){cintaEntrada_ = pointer;}
         void stablishCintaSalida(cintaSalida* pointer){cintaSalida_ = pointer;}
+
+        bool indirect(void)const{return true;}
+        inline bool indirectMode(void)const{return instruction::operand_.contains(myString("*"));}
+
 };

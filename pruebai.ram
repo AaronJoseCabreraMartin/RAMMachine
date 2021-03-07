@@ -1,0 +1,6 @@
+load =5
+store 10
+sub =1
+store 5
+write *10
+halt

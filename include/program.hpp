@@ -55,12 +55,12 @@ class program{
     
         std::unordered_map<std::string,unsigned>* getEtiquetas(void);
 
+        instruction* createInstruction(const myString&)const;
     private:
         bool checkLineSyntax(const myString&)const;
         int checkSemantic(void);
         bool checkTagDefined(const myString&);
 
-        instruction* createInstruction(const myString&)const;
 
         myString deleteComments(const myString&)const;
         myString deleteInnerSpaces(const myString&)const;

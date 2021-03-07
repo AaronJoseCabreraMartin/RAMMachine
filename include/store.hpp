@@ -12,6 +12,6 @@ class store : public registryInstruction{
         virtual ~store(){}
         int apply(void);
 
-        virtual bool indirect(void)const{return true;}
+        inline bool inmediateAllowed(void)const{return false;}
         myString name(void)const{return myString("store");}
 };

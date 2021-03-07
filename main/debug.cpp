@@ -3,17 +3,10 @@
 #include <iostream>
 
 int main(void) {
-    myString prueba("0123456789");
+    myString prueba(123456789);
+    myString prueba2("+1");
 
-    std::cout << prueba.string() << std::endl;
-    std::cout << prueba.cut(3,5).string() << std::endl;
-    std::cout << prueba.cut(7).string() << std::endl;
-    if (prueba.contains(myString("56"))) {
-        std::cout << "contiene" << std::endl;
-    }else{
-        std::cout << "no contiene" << std::endl;
-    }
-    std::cout << prueba.toInt() << std::endl;
-    std::cout << prueba.cut(1,prueba.size()-1).string() << std::endl;
+    std::cout << prueba.concate(prueba2).string() << std::endl;
+    
     return 0;
 }

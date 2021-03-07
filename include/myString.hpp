@@ -9,6 +9,7 @@ class myString{
     public:
         myString(void){}
         myString(const std::string& string){ string_ = string; }
+        myString(const int& integer){string_ = std::to_string(integer);}
         virtual ~myString(){}
         
         bool operator==(const myString&)const;
@@ -26,6 +27,7 @@ class myString{
         inline void clear(void){string_.clear();}
 
         myString cut(const unsigned& inicio, const unsigned& fin = 0)const;
+        myString concate(const myString&)const;
         bool contains(const myString&)const;
 
         int toInt(void)const;

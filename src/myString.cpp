@@ -1,5 +1,6 @@
 #include "../include/myString.hpp"
 
+
 bool myString::operator==(const myString& otherString)const{
     if ( string_.size() == otherString.size()) {
         unsigned index = 0;
@@ -87,6 +88,14 @@ int myString::toInt(void)const{
             std::cerr << "No se ha podido convertir " << string_ << " correctamente a int" << std::endl;
             return 0;
         }
+    }
+    return toReturn;
+}
+
+myString myString::concate(const myString& other)const{
+    std::string toReturn = string_;
+    for (size_t i = 0; i < other.size(); i++) {
+        toReturn.push_back(other[i]);
     }
     return toReturn;
 }

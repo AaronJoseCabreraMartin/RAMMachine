@@ -9,11 +9,27 @@ int store::solveIndirection(void){
 
 //guarda lo que haya en el acu en el reg que le digas
 int store::apply(void){
+    
     //esta en modo indirecto
     if (instruction::operand_.contains(myString("*"))){
+        if (instruction::operand_.cut(1,instruction::operand_.size()-1).toInt() <= 0) {
+            std::cerr << "¡Registro inexistente!" << std::endl;
+            instruction::correct_ = false;
+            return 0;
+        }
+        if (solveIndirection() <= 0) {
+            std::cerr << "¡Registro inexistente!" << std::endl;
+            instruction::correct_ = false;
+            return 0;
+        }
         registryInstruction::registros_->operator[](solveIndirection()) = *registryInstruction::acumulador_;
     //esta en modo normal
     }else{
+        if (instruction::operand_.toInt() <= 0) {
+            std::cerr << "¡Registro inexistente!" << std::endl;
+            instruction::correct_ = false;
+            return 0;
+        }
         registryInstruction::registros_->operator[](instruction::operand_.toInt()) = *registryInstruction::acumulador_; 
     }
     

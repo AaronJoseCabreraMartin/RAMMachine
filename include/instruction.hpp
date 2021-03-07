@@ -40,6 +40,10 @@ class instruction{
         virtual bool indirect(void)const{return false;}
         virtual bool indirectMode(void)const{return false;}
         virtual int solveIndirection(void){return 0;}
+        //en todas esta permitido el inmediato excepto en LOAD y STORE
+        // esas dos tienen que devuelve false
+        virtual bool inmediateAllowed(void)const{return true;}
+
 
         
         void show(void)const;

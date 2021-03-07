@@ -229,7 +229,8 @@ std::vector<myString> program::splitInstructionParts(const myString& line)const{
         argumento.push_back(line[i]);
         i++;
     }
-    toReturn[2] = myString(argumento).capitalize();
+    //toReturn[2] = myString(argumento).capitalize();
+    toReturn[2] = myString(argumento);
     return toReturn;
 }
 
@@ -289,26 +290,28 @@ bool program::correctArgument(const instruction* sentenceToCheck)const{
         return false;
     }
     
-    //if (isAJumpInstruction(sentenceToCheck->getInstruction())) {
     if (sentenceToCheck->kindOf() == myString("jump")) {
         //si hubiera algo que en una etiqueta no deberia aparecer
-    //}else if (isAnIndirectInstruction(sentenceToCheck->getInstruction())
+    //esta en modo indirecto y es una instruccion indirecta
     }else if (sentenceToCheck->indirect()
                 && argumentToCheck[0] == '*'  ) {
+        //despues de la primera posicion si pueden venir 0 (48 es el 0)
+        if ( !((int) argumentToCheck[1] > 48 && (int) argumentToCheck[1] < 58) ){
+                return false;
+        }
         //*numero ni el registro ni lo que contiene el registro puede ser negativo
-        for (size_t i = 1; i < argumentToCheck.size(); i++) {
-            //si no es un numero, mal
+        for (size_t i = 2; i < argumentToCheck.size(); i++) {
+            //si no es un numero, mal (48 es el 0)
             if ( !((int) argumentToCheck[i] > 47 && (int) argumentToCheck[i] < 58) ){
                 return false;
             }
         }
-        //LAS INSTRUCCIONES INDIRECTAS NO PUEDEN VENIR CON UN =
-    //}else if (isAnIndirectInstruction(sentenceToCheck->getInstruction())
-    }else if (sentenceToCheck->indirect() && argumentToCheck[0] == '=') {
+    //LAS INSTRUCCIONES STORE Y LOAD NO PUEDEN VENIR CON UN =
+    }else if ( !sentenceToCheck->inmediateAllowed() && argumentToCheck[0] == '=') {
         return false;
     }else{
-        //NO ES UNA INSTRUCCION DE SALTO NI DE INDIRECCION
-        //y si es de indireccion no tiene un =
+        //NO ES UNA INSTRUCCION DE SALTO NI ESTA EN MODO INDIRECTO
+        //y si es store y load no tiene un =
 
         //=numero (literales) pueden ser negativos
         if (argumentToCheck[0] == '=') {
@@ -321,15 +324,19 @@ bool program::correctArgument(const instruction* sentenceToCheck)const{
             //si es un numero negativo salta el signo
             int start = argumentToCheck[1] == '-' ? 2 : 1;
             for (size_t i = start; i < argumentToCheck.size(); i++) {
-                //si no es un numero, mal
+                //si no es un numero, mal (0 permitido)
                 if ( !((int) argumentToCheck[i] > 47 && (int) argumentToCheck[i] < 58) ){
                     return false;
                 }
             }
-        //numeros (registros) NO PUEDEN SER NEGATIVOS
+        //numeros (registros) NO PUEDEN SER NEGATIVOS NI 0
         }else{
-            for (size_t i = 0; i < argumentToCheck.size(); i++) {
-                //si no es un numero, mal
+            //despues de la primera posicion si pueden venir 0 (48 es el 0)
+            if ( !((int) argumentToCheck[0] > 48 && (int) argumentToCheck[0] < 58) ){
+                    return false;
+            }
+            for (size_t i = 1; i < argumentToCheck.size(); i++) {
+                //si no es un numero, mal 
                 if ( !((int) argumentToCheck[i] > 47 && (int) argumentToCheck[i] < 58) ){
                     return false;
                 }

@@ -18,4 +18,6 @@ class  mathInstruction : public operandInstruction{
         void stablishAcumulador(int* pointer){ acumulador_ = pointer; }
         void stablishRegistros(registros* pointer){ registros_ = pointer; }
 
+        virtual bool indirect(void)const{return true;}
+        inline bool indirectMode(void)const{return instruction::operand_.contains(myString("*"));}
 };
