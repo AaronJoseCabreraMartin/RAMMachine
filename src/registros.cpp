@@ -13,7 +13,6 @@ int& registros::operator[](const int& index){
     while (index >= registros_.size()) {
         registros_.insert_tail(0);
     }
-    std::cout << index << " " << registros_.size() << std::endl;
     return registros_[index];
 }
 

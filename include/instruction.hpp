@@ -36,6 +36,7 @@ class instruction{
 
         inline bool hasTag(void)const{return hasTag_;}
         inline bool hasOperand(void)const{return hasOperand_;}
+        inline bool inmediate(void)const{return operand_.contains(myString("="));}
         virtual bool indirect(void)const{return false;}
         virtual bool indirectMode(void)const{return false;}
         virtual int solveIndirection(void){return 0;}

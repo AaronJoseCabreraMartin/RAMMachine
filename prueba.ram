@@ -1,9 +1,19 @@
-read 1
-read 2
-read 3
-read 4
-read 5
-read 6
-read 7
-read 8
-read 9
+read 1;lee de la cinta y lo guarda en r1
+read *1;lee de la cinta y lo guarda en r(r1) (deberia ser r2)
+WRITE 1;escribe en la cinta el r1
+WRITE =1;escribe en la cinta un 1
+load 2;guarda r2 en acu 
+load =3;guarda un 3 en acu 
+store 0;guarda acu en r0
+store *0;guarda acu en r(r0)
+add 1;suma r1 a acu
+add =1;acu++
+sub 2;resta acu - r2
+sub =1;acu--
+mult 2;multiplica acu*r2
+mult =3;acu = acu*3
+load =4
+store 2
+div 2;divide acu/r2
+div =2;divide acu/2
+halt

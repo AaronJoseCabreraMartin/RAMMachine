@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
                     myRAMMachine.showRegisters();
                     break;
                 case 't':
-                    std::cout << "Ejecutaría pero en modo traza" << std::endl;
+                    myRAMMachine.executeStepByStep();
                     salir = true;
                     break;
                 case 'e':

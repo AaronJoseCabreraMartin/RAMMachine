@@ -1,0 +1,12 @@
+load =3
+JUMP gtz
+write =99
+sss: sub =1
+gtz: jgtz sss
+write =88
+load =2
+torest: sub =1
+sub =1
+jtz: jzero torest
+write =77
+halt

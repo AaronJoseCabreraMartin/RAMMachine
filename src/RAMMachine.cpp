@@ -15,16 +15,20 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
         bool correct = true;
         std::string line;
         while (getline(file,line)) {
+            std::string number;
+            std::cout << line << std::endl;
             for (size_t i = 0; i < line.size(); i++) {
                 if (line[i] != ' ') {
-                    int number = (int)line[i]-48;
-                    if ( number < 0) {
-                        std::cerr << "Error en la entrada" << std::endl;
-                    }else{
-                        entradaLeida.push_back(number);
-                    }
+                    number.push_back(line[i]);  
+                }else if (line[i] == ' ' || i+1 == line.size()){
+                    entradaLeida.push_back(myString(number).toInt());
+                    number.clear();
                 }
             }
+            if (number.size()!=0) {
+                entradaLeida.push_back(myString(number).toInt());
+            }
+            
         }
         file.close();
         cintaEntrada_.setCinta(entradaLeida);
@@ -119,25 +123,37 @@ void RAMMachine::execute(void){
             }
         }else if (instruccionActiva->kindOf() == myString("jump")) {
             int toJump = instruccionActiva->apply();
-            if (toJump == -1) {
-                std::cerr << "Error en instruccion de salto!" << std::endl;
-                instruccionActiva->show();
-                state_ = false;
-                correct = false;
-            }else{
+            if (toJump != -1) {
                 programCounter_ = toJump;
+            }else{
+                programCounter_++;
             }
         }else if (instruccionActiva->kindOf() == myString("registry")) {
+            
             instruccionActiva->apply();
+
         }else if (instruccionActiva->kindOf() == myString("memory")) {
             if (instruccionActiva->name() == myString("read")){
                 if ( instruccionActiva->indirectMode() ){
-                    registros_[instruccionActiva->solveIndirection()] = cintaEntrada_.read(); 
+                    int pointer = registros_[instruccionActiva->solveIndirection()];
+                    if (pointer < 0) {
+                        std::cerr << "Error, se salta a un registro negativo" << std::endl;
+                        correct = false;
+                        state_ = false;
+                        break;
+                    }else{
+                        registros_[pointer] = cintaEntrada_.read(); 
+                    }
+                    
                 }else{
                     registros_[instruccionActiva->apply()] = cintaEntrada_.read();
                 }
             }else{
-                cintaSalida_.write(registros_[instruccionActiva->apply()]);
+                if ( instruccionActiva->inmediate()) {
+                    cintaSalida_.write(instruccionActiva->apply());
+                }else{
+                    cintaSalida_.write(registros_[instruccionActiva->apply()]);
+                }
             }
         }else if (instruccionActiva->kindOf() == myString("halt")) {
             instruccionesEjecutadas_++;
@@ -150,9 +166,6 @@ void RAMMachine::execute(void){
         if (!(instruccionActiva->kindOf() == myString("jump"))) {
             programCounter_++;
         }
-        showState();
-        int a;
-        std::cin >> a;
     }
 
     if (correct) {
@@ -171,11 +184,29 @@ void RAMMachine::executeStepByStep(void){
             std::cerr << "Quizás falte una instrucción halt..." << std::endl;
             state_ = false;
             correct = false;
+            break;
         }
         
         instruction* instruccionActiva = programa_[programCounter_];
-
+        std::cout << "Instruccion que se va a ejecutar: ";
+        instruccionActiva->show();
         if (instruccionActiva->kindOf() == myString("math")) {
+            if (instruccionActiva->inmediate()) {
+                std::cout << "La instruccion es inmediata" << std::endl;
+                std::cout << "acumulador = acumulador ";
+                if (instruccionActiva->name() == myString("add")) {
+                    std::cout << "+";
+                }else if(instruccionActiva->name() == myString("sub")){
+                    std::cout << "-";
+                }else if(instruccionActiva->name() == myString("mult")){
+                    std::cout << "*";
+                }else if(instruccionActiva->name() == myString("div")){
+                    std::cout << "/";
+                }
+                std::cout << " " << instruccionActiva->getOperand().cut(1,instruccionActiva->getOperand().size()-1).toInt();
+                std::cout << std::endl;
+            }
+            
             acumulador_ = instruccionActiva->apply();
             if(!instruccionActiva->isCorrect()){
                 std::cerr << "Error se divide entre 0!" << std::endl;
@@ -185,25 +216,37 @@ void RAMMachine::executeStepByStep(void){
             }
         }else if (instruccionActiva->kindOf() == myString("jump")) {
             int toJump = instruccionActiva->apply();
-            if (toJump == -1) {
-                std::cerr << "Error en instruccion de salto!" << std::endl;
-                instruccionActiva->show();
-                state_ = false;
-                correct = false;
-            }else{
+            if (toJump != -1) {
                 programCounter_ = toJump;
+            }else{
+                programCounter_++;
             }
         }else if (instruccionActiva->kindOf() == myString("registry")) {
+            
             instruccionActiva->apply();
+
         }else if (instruccionActiva->kindOf() == myString("memory")) {
             if (instruccionActiva->name() == myString("read")){
                 if ( instruccionActiva->indirectMode() ){
-                    registros_[instruccionActiva->solveIndirection()] = cintaEntrada_.read(); 
+                    int pointer = registros_[instruccionActiva->solveIndirection()];
+                    if (pointer < 0) {
+                        std::cerr << "Error, se salta a un registro negativo" << std::endl;
+                        correct = false;
+                        state_ = false;
+                        break;
+                    }else{
+                        registros_[pointer] = cintaEntrada_.read(); 
+                    }
+                    
                 }else{
                     registros_[instruccionActiva->apply()] = cintaEntrada_.read();
                 }
             }else{
-                cintaSalida_.write(registros_[instruccionActiva->apply()]);
+                if ( instruccionActiva->inmediate()) {
+                    cintaSalida_.write(instruccionActiva->apply());
+                }else{
+                    cintaSalida_.write(registros_[instruccionActiva->apply()]);
+                }
             }
         }else if (instruccionActiva->kindOf() == myString("halt")) {
             instruccionesEjecutadas_++;
@@ -216,12 +259,15 @@ void RAMMachine::executeStepByStep(void){
         if (!(instruccionActiva->kindOf() == myString("jump"))) {
             programCounter_++;
         }
+        std::cout << std::endl;
         showState();
-        int a;
+        
+        char a;
         std::cin >> a;
     }
 
     if (correct) {
+        std::cout << "Todo salio correctamente, exportando en " << ficheroSalida_ << std::endl;
         cintaSalida_.toFile(ficheroSalida_);
     }
 }
