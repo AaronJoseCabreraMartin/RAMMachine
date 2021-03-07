@@ -4,8 +4,8 @@ WRITE 1;escribe en la cinta el r1
 WRITE =1;escribe en la cinta un 1
 load 2;guarda r2 en acu 
 load =3;guarda un 3 en acu 
-store 0;guarda acu en r0
-store *0;guarda acu en r(r0)
+store 1;guarda acu en r1
+store *1;guarda acu en r(r1)
 add 1;suma r1 a acu
 add =1;acu++
 sub 2;resta acu - r2

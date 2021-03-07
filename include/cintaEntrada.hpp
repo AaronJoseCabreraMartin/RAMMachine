@@ -8,4 +8,6 @@ class cintaEntrada : public cinta{
         cintaEntrada(const std::vector<int>& cintaInicial):cinta(cintaInicial){}
         virtual ~cintaEntrada(){}
         int read(void);//no const, mueve el cabezal
+        void show(void)const;
+
 };

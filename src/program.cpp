@@ -34,7 +34,7 @@ program::program(const std::string& ficheroPrograma){
                     correct = false;
                     line.clear();
                     clear();
-                    break;
+                    return;
                 }
                 line.clear();
             }
@@ -50,6 +50,7 @@ program::program(const std::string& ficheroPrograma){
                 correct = false;
                 line.clear();
                 clear();
+                return;
             }
         }
 

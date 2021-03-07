@@ -12,4 +12,5 @@ class cintaSalida : public cinta{
         virtual ~cintaSalida(){}
         void write(const int&);
         void toFile(const std::string&)const;
+        void show(void)const;
 };

@@ -25,6 +25,9 @@ int main(int argc, char *argv[]){
         debug = myString(argv[4]) == myString("1");
     }
     RAMMachine myRAMMachine(argv[2],argv[3],argv[1],debug);
+    if (myRAMMachine.programSize() == 0) {
+        return 0;
+    }
     if (debug){
         bool salir = false;
         int sys;
@@ -78,11 +81,7 @@ int main(int argc, char *argv[]){
             }
         }
     }else{
-        myRAMMachine.execute();
+            myRAMMachine.execute();
     }
-    
-    
-
-
     return 0;
 }

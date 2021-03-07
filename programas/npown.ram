@@ -6,7 +6,7 @@
             JGTZ if
             JUMP else
 
-if:         LOAD =1
+if:         LOAD 1
             STORE 2
 
 while:      LOAD 1

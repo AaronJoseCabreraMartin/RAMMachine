@@ -10,7 +10,6 @@ RAMMachine::RAMMachine(const std::string& entrada, const std::string& salida,
     state_ = false;
 
     std::vector<int> entradaLeida;
-    entradaLeida.push_back(0);
     std::fstream file(entrada);
     if (file.is_open()) {
         bool correct = true;
@@ -425,11 +424,11 @@ void RAMMachine::executeStepByStep(void){
             std::cout << "Instruccion de salto" << std::endl;
             int toJump = instruccionActiva->apply();
             if (toJump != -1) {
-                std::cout << "Se cumple la conticion de salto" << std::endl;
+                std::cout << "Se cumple la condicion de salto" << std::endl;
                 programCounter_ = toJump;
                 std::cout << "Se saltara a la instruccion" << programCounter_ << std::endl;
             }else{
-                std::cout << "No se cumple la conticion de salto" << std::endl;
+                std::cout << "No se cumple la condicion de salto" << std::endl;
                 std::cout << "Se continua con el flujo normal de ejecucion" << std::endl;
                 programCounter_++;
             }
@@ -504,6 +503,7 @@ void RAMMachine::executeStepByStep(void){
                         correct = false;
                         break;
                     }
+                    
                     registros_[pointer] = cintaEntrada_.read(); 
                     std::cout << "Se carga un " << registros_[pointer] << " en registro " << pointer << std::endl;
                 }else{
@@ -587,6 +587,7 @@ void RAMMachine::executeStepByStep(void){
             std::cout << "Para continuar, introduzca cualquier caracter y pulse enter" << std::endl;
             char a;
             std::cin >> a;
+            int sys = system("clear");
         }
         
     }

@@ -4,11 +4,10 @@ cinta::cinta(const std::vector<int>& estadoInicial){
     for (size_t i = 0; i < estadoInicial.size(); i++) {
         cinta_.insert_tail(estadoInicial[i]);
     }
-    cabezal_ = 0;
 }
 
 void cinta::show(void)const{
-    for (size_t i = 0; i < cinta_.size(); i++) {
+    for (size_t i = 1; i < cinta_.size(); i++) {
         std::cout << cinta_[i] << " ";
     }
 }

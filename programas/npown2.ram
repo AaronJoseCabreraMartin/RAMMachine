@@ -1,0 +1,25 @@
+;Aaron Jose Cabrera Martin - alu0101101019
+;Calcula n^n en tiempo n
+
+            read 1
+            load 1
+            jgtz else
+            write =0
+            jump endif
+else:       load 1
+            sub =1
+            store 3
+            load 1
+            store 2
+while:      load 3
+            jgtz continue
+            jump endwhile
+continue:   load 1
+            mult 2
+            store 2
+            load 3
+            sub =1
+            store 3
+            jump while
+endwhile:   write 2
+endif:      HALT

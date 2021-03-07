@@ -42,7 +42,7 @@ class RAMMachine{
         void showPrograma(void)const;
 
         inline void exportToFile(void)const{cintaSalida_.toFile(ficheroSalida_);}
-        
+        inline bool programSize(void)const{return programa_.size();}
         //ejecuta hasta un halt o un error
         void execute(void);
         //Para modo paso a paso

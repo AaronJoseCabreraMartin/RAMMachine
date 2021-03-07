@@ -14,7 +14,7 @@ class cinta{
         cinta(const std::vector<int>&);
         virtual ~cinta(){}
 
-        void show(void)const;
+        virtual void show(void)const;
         
         inline int size(void)const{return cinta_.size();}
 
